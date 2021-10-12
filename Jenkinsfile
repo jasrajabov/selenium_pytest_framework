@@ -7,7 +7,11 @@ pipeline {
             }
         }
         stage('test') {
-            sh 'echo test'
+
+            steps {
+                sh 'echo test'
+            }
+            
         }
     }
 }
