@@ -5,7 +5,7 @@ import pytest
 
 class TestFixapp:
 
-    @pytest.mark.draft
+    
     def test_login_text(self, fixapp):
         fixapp.open_home_page()
         text = fixapp.find_by_xpath("//div/div/p").text
@@ -17,15 +17,17 @@ class TestFixapp:
         login.click()
         assert fixapp.browser.current_url == 'http://fixstockdataapp.herokuapp.com/accounts/login/'
 
+    @pytest.mark.draft
     def test_login(self, fixapp):
         fixapp.login_as_test()
         title = fixapp.find_by_css('.display-5').text
         path = fixapp.find_by_xpath('//div/div/h3[2]')
-        stock = path[0].text.split(':')[1][:-1].strip()
+        stock = path.text.split(':')[1][:-1].strip()
         assert stock == 'GOOGL'
         assert title == 'STOCK DATA'
 
-    @pytest.mark.parametrize('stock', ['AAPL', 'FB', 'TSLA', 'GOOGL'])
+    
+    @pytest.mark.parametrize('stock', ['AAPL', 'FB'])
     def test_search_stock(self, stock, fixapp):
         fixapp.login_as_test()
         stock_box = fixapp.find_by_css('#stock_symbol')
