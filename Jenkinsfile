@@ -1,15 +1,17 @@
 pipeline {
     agent any
     stages {
-        stage('build') {
+        stage('Set up env') {
             steps {
-                sh 'python --version'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh 'python3 --version'
+                sh 'pip install requirements.txt'
             }
         }
         stage('test') {
 
             steps {
-                sh 'echo test'
+                sh 'python3 -m pytest tests/main.py'
             }
             
         }
