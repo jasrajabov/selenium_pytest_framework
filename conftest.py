@@ -18,7 +18,7 @@ def browser(config):
     opts.headless = config['chrome_options'].getboolean('headless')
     driver = config['browser']['browser']
     if driver == 'chrome':
-        _browser = webdriver.Chrome(options=opts)
+        _browser = webdriver.Chrome(options=opts, executable_path='/usr/local/bin/chromedriver')
     # Return the WebDriver instance for the setup
     yield _browser
     # Quit the WebDriver instance for the cleanup
