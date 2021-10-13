@@ -5,7 +5,7 @@ pipeline {
             steps {
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 sh 'python3 --version'
-                sh 'pip3 install -r requirements.txt'
+                sh 'pip3 install -r requirements.txt --user'
             }
         }
         stage('test') {
