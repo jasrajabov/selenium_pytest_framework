@@ -8,12 +8,17 @@ pipeline {
                 sh 'pip3 install -r requirements.txt --user'
             }
         }
-        stage('test') {
+        stage('Test') {
 
             steps {
-                sh 'python3 -m py.test tests/main_tests.py'
+                sh 'python3 -m pytest tests/main_tests.py'
             }
             
+        }
+    }
+    post {
+        always {
+            junit 'tests/junit/*.xml'
         }
     }
 }
