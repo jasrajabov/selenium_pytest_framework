@@ -4,7 +4,6 @@ import pytest
 
 
 class TestFixapp:
-
     
     def test_login_text(self, fixapp):
         fixapp.open_home_page()
@@ -17,7 +16,7 @@ class TestFixapp:
         login.click()
         assert fixapp.browser.current_url == 'http://fixstockdataapp.herokuapp.com/accounts/login/'
 
-    @pytest.mark.draft
+    
     def test_login(self, fixapp):
         fixapp.login_as_test()
         title = fixapp.find_by_css('.display-5').text
@@ -38,5 +37,26 @@ class TestFixapp:
         dates = list(map(lambda x: x.text, fixapp.find_by_css_m('.table-info tbody tr td:nth-child(6)')))
         assert _stock == stock
 
+
     
+    def test_popup(self, fixapp, test_input_buy_limit):
+        fixapp.login_as_test()
+        fixapp.go_to_fix_generate_page()
+        fixapp.generate_fix_based_on_data(test_input_buy_limit)
+        assert fixapp.alert.text == "Do you want to generate FIX message?"
+
+    @pytest.mark.draft
+    def test_fix_message_generated_success(self, fixapp, test_input_buy_limit):
+        fixapp.login_as_test()
+        fixapp.go_to_fix_generate_page()
+        fixapp.generate_fix_based_on_data(test_input_buy_limit)
+        fixapp.alert.accept()
+        message = fixapp.find_by_xpath('//body/div/div/div/b').text.strip()
+        print(message)
+        assert message.startswith('Success')
+
+
+        
+
+
         

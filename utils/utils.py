@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.alert import Alert
 
 
 class Utils:
@@ -44,6 +45,33 @@ class Utils:
         login_button.click()
         self.browser.implicitly_wait(5)
     
+    def generate_fix_based_on_data(self, data):
+        stock_, quantity_, price_, side_, order_type_ = [v for k, v in data.items()]
+        stock = self.find_by_css('#stock_symbol')
+        stock.send_keys(stock_)
+        quantity = self.find_by_css('#quantity')
+        quantity.send_keys(quantity_)
+        price = self.find_by_css('#price')
+        price.send_keys(price_)
+        side= self.find_by_css('#side')
+        side.click()
+        self.find_by_css(f"option[value='{side_}']").click()
+        order_type = self.find_by_css('#order_type')
+        order_type.click()
+        self.find_by_css(f"option[value='{order_type_}']").click()
+        generate = self.find_by_css("button[type='submit']")
+        generate.click()
+
+
+    def go_to_fix_generate_page(self):
+        fix_gen_link = self.find_by_css('a[class="nav-link"][href="/fixinput/"]')
+        fix_gen_link.click()
+
+    @property  
+    def alert(self):
+        alert = Alert(self.browser)
+        return alert
+
     def close_browser(self):
         self.browser.close()
 

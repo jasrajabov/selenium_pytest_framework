@@ -30,3 +30,8 @@ def browser(config):
 def fixapp(browser, config):
     return Utils(browser, config)
 
+
+@pytest.fixture
+def test_input_buy_limit():
+    return {'stock':'AAPL', 'quantity':123, 'price':123, 'side':'Buy', 'order_type':'Limit'}
+

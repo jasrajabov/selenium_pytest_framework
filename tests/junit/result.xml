@@ -1,1 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="5" time="18.112" timestamp="2021-10-12T21:16:17.026001" hostname="Jasurbeks-MBP"><testcase classname="tests.main_tests.TestFixapp" name="test_login_page" time="4.102" /><testcase classname="tests.main_tests.TestFixapp" name="test_login_text" time="4.005" /><testcase classname="tests.main_tests.TestFixapp" name="test_login" time="7.039" /><testcase classname="tests.main_tests.TestFixapp" name="test_search_stock[AAPL]" time="7.970" /><testcase classname="tests.main_tests.TestFixapp" name="test_search_stock[FB]" time="6.578" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="55.964" timestamp="2021-10-14T19:39:34.615806" hostname="Jasurbeks-MacBook-Pro.local"><testcase classname="tests.main_tests.TestFixapp" name="test_login_text" time="21.111" /><testcase classname="tests.main_tests.TestFixapp" name="test_login_page" time="21.242" /><testcase classname="tests.main_tests.TestFixapp" name="test_login" time="5.258" /><testcase classname="tests.main_tests.TestFixapp" name="test_search_stock[AAPL]" time="11.570" /><testcase classname="tests.main_tests.TestFixapp" name="test_search_stock[FB]" time="10.264" /><testcase classname="tests.main_tests.TestFixapp" name="test_search_stock[TSLA]" time="22.675"><failure message="selenium.common.exceptions.TimeoutException: Message:">self = &lt;main_tests.TestFixapp object at 0x1104fe4f0&gt;, stock = 'TSLA', fixapp = &lt;selenium_fix_app.utils.utils.Utils object at 0x110579940&gt;
+
+    @pytest.mark.parametrize('stock', ['AAPL', 'FB', 'TSLA'])
+    def test_search_stock(self, stock, fixapp):
+        fixapp.login_as_test()
+        stock_box = fixapp.find_by_css('#stock_symbol')
+        submit_button = fixapp.find_by_css('button[type="submit"][class*=btn]')
+        stock_box.send_keys(stock)
+        submit_button.click()
+&gt;       _stock = fixapp.find_by_xpath_m('//div/div/h3[2]')[0].text.split(':')[1][:-1].strip()
+
+tests/main_tests.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+utils/utils.py:26: in find_by_xpath_m
+    return WebDriverWait(self.browser, self.timeout).until(EC.presence_of_all_elements_located((By.XPATH, xpath)))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;selenium.webdriver.support.wait.WebDriverWait (session="c8d93007079ad6ef4b770f19612a7425")&gt;
+method = &lt;selenium.webdriver.support.expected_conditions.presence_of_all_elements_located object at 0x1104fe6d0&gt;, message = ''
+
+    def until(self, method, message=''):
+        """Calls the method provided with the driver as an argument until the \
+        return value is not False."""
+        screen = None
+        stacktrace = None
+    
+        end_time = time.time() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, 'screen', None)
+                stacktrace = getattr(exc, 'stacktrace', None)
+            time.sleep(self._poll)
+            if time.time() &gt; end_time:
+                break
+&gt;       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message:
+
+venv/lib/python3.9/site-packages/selenium/webdriver/support/wait.py:80: TimeoutException</failure></testcase></testsuite></testsuites>
