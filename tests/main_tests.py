@@ -1,7 +1,7 @@
 from datetime import datetime
 from dateutil.relativedelta import *
 import pytest
-
+import time
 
 class TestFixapp:
     
@@ -45,8 +45,10 @@ class TestFixapp:
         fixapp.generate_fix_based_on_data(test_input_buy_limit)
         assert fixapp.alert.text == "Do you want to generate FIX message?"
 
-    @pytest.mark.draft
+    # @pytest.mark.draft
+    @pytest.mark.xfail
     def test_fix_message_generated_success(self, fixapp, test_input_buy_limit):
+        time.sleep(3)
         fixapp.login_as_test()
         fixapp.go_to_fix_generate_page()
         fixapp.generate_fix_based_on_data(test_input_buy_limit)
