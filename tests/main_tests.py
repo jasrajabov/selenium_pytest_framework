@@ -14,7 +14,7 @@ class TestFixapp:
         fixapp.open_home_page()
         login = fixapp.find_by_xpath("//div/div/a")
         login.click()
-        assert fixapp.browser.current_url == 'http://fixstockdataapp.herokuapp.com/accounts/login/'
+        assert fixapp.browser.current_url == fixapp.home_url
 
     
     def test_login(self, fixapp):
@@ -45,10 +45,9 @@ class TestFixapp:
         fixapp.generate_fix_based_on_data(test_input_buy_limit)
         assert fixapp.alert.text == "Do you want to generate FIX message?"
 
-    # @pytest.mark.draft
+    
     @pytest.mark.xfail
     def test_fix_message_generated_success(self, fixapp, test_input_buy_limit):
-        time.sleep(3)
         fixapp.login_as_test()
         fixapp.go_to_fix_generate_page()
         fixapp.generate_fix_based_on_data(test_input_buy_limit)
@@ -57,8 +56,25 @@ class TestFixapp:
         print(message)
         assert message.startswith('Success')
 
-
-        
-
+    
+    def test_new_window_open(self,fixapp, test_input_buy_limit):
+        fixapp.login_as_test()
+        fixapp.go_to_fix_generate_page()
+        fixapp.generate_fix_based_on_data(test_input_buy_limit)
+        fixapp.alert.accept()
+        tag8_link = fixapp.find_by_css('a[target="_blank"]').click()
+        new_window = fixapp.browser.window_handles[1]
+        fixapp.browser.switch_to.window(new_window)
+        assert fixapp.browser.title.startswith('BeginString <8> field')
+    
+    @pytest.mark.draft
+    def test_fix_message_content(self, fixapp, test_input_buy_limit):
+        fixapp.login_as_test()
+        fixapp.go_to_fix_generate_page()
+        fixapp.generate_fix_based_on_data(test_input_buy_limit)
+        fixapp.alert.accept()
+        fix_message = fixapp.find_by_xpath('//body/div/div/div').text.strip().split('\n')[1]
+        dict_ = fixapp.fix_to_dict(fix_message)
+        assert dict_['55'] == 'AAPL'
 
         

@@ -75,5 +75,9 @@ class Utils:
     def close_browser(self):
         self.browser.close()
 
-    
+    def fix_to_dict(self, fix):
+        splitted_by_del = fix.split('|')
+        pairs = list(map(lambda x: x.split('='), splitted_by_del))
+        d = {lst[0]: lst[1] for lst in pairs}
+        return d
     
