@@ -18,7 +18,9 @@ pipeline {
     }
     post {
         always {
-            junit 'tests/junit/*.xml'
+            emailext body: '${FILE,path="./tests/junit/email.html"}',
+            to: 'razhabov@yahoo.com',
+            subject: 'Post $BUILD_ID notification'
         }
     }
 }
