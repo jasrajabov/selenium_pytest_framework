@@ -14,7 +14,7 @@ class TestFixapp:
         fixapp.open_home_page()
         login = fixapp.find_by_xpath("//div/div/a")
         login.click()
-        assert fixapp.browser.current_url == fixapp.home_url
+        assert fixapp.browser.current_url == fixapp.login_page
 
     
     def test_login(self, fixapp):
@@ -56,7 +56,8 @@ class TestFixapp:
         print(message)
         assert message.startswith('Success')
 
-    
+    @pytest.mark.draft
+    @pytest.mark.xfail
     def test_new_window_open(self,fixapp, test_input_buy_limit):
         fixapp.login_as_test()
         fixapp.go_to_fix_generate_page()
@@ -67,7 +68,7 @@ class TestFixapp:
         fixapp.browser.switch_to.window(new_window)
         assert fixapp.browser.title.startswith('BeginString <8> field')
     
-    @pytest.mark.draft
+    
     def test_fix_message_content(self, fixapp, test_input_buy_limit):
         fixapp.login_as_test()
         fixapp.go_to_fix_generate_page()

@@ -15,6 +15,18 @@ pipeline {
             }
             
         }
+
+        stage('Converting xml to html') {
+            steps {
+                sh 'python3 xml_to_html.py'
+            }
+        }
+
+        stage('junit') {
+            steps {
+                junit 'tests/junit/*.xml',
+            }
+        }
     }
     post {
         always {
