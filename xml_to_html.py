@@ -4,7 +4,6 @@ import shutil
 def handle_xml_to_html():
     for file_ in os.listdir('./tests/junit'):
         if file_.endswith('.xml'):
-            #print(file_)
             shutil.copy('./tests/junit/'+file_, './tests/junit/email.html')
     
 
