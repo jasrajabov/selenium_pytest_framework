@@ -24,9 +24,9 @@ pipeline {
     }
     post {
         always {
-            emailext body: '${FILE,path="./tests/junit/email.html"}',
+            emailext body: '${FILE,path="./tests/junit/email_out.html"}',
             to: 'razhabov@yahoo.com',
-            subject: "Post ${env.BUILD_ID} notification" 
+            subject: "Post BUILD: ${env.BUILD_ID} notification" 
         }
     }
 }
