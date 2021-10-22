@@ -21,13 +21,18 @@ pipeline {
                 sh "python3 xml_to_html.py"
             }
         }
+
+        stage('junit') {
+            steps {
+                junit 'tests/junit/*.xml',
+            }
+        }
     }
     post {
         always {
-            //junit 'tests/junit/*.xml',
             emailext body: '${FILE,path="./tests/junit/email.html"}',
             to: 'razhabov@yahoo.com',
-            subject: "Post $BUILD_ID notification",
+            subject: "Post $BUILD_ID notification"
         }
     }
 }
