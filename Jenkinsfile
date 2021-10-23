@@ -21,6 +21,11 @@ pipeline {
                 sh 'python3 xml_to_html.py'
             }
         }
+        stage('junit report') {
+            steps {
+                junit 'tests/junit/*.xml'
+            }
+        }
     }
     post {
         always {
