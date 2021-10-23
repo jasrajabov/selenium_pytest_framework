@@ -29,9 +29,10 @@ pipeline {
     }
     post {
         always {
-            emailext body: '${FILE,path="./templates/out_email.html"}',
+            emailext body: '${FILE, path="./templates/out_email.html"}',
             to: 'razhabov@yahoo.com',
-            subject: "Post BUILD: ${env.BUILD_ID} notification" 
+            subject: "Post BUILD: ${env.BUILD_ID} notification",
+            mimeType: 'text/html'
         }
     }
 }
