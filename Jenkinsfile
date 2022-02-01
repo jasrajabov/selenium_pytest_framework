@@ -11,7 +11,7 @@ pipeline {
         stage('Test') {
 
             steps {
-                sh "python3 -m pytest tests/main_tests.py --junitxml='tests/junit/result.xml'"
+                sh "python3 -m pytest tests/test_ui.py --junitxml='tests/junit/result.xml'"
             }
             
         }
