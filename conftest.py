@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pytest
 import configparser
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 
 
@@ -19,7 +21,9 @@ def browser(config):
     driver = config['browser']['browser']
     if driver == 'chrome':
         exec_path = config['paths']['exc_path_chrome']
-        _browser = webdriver.Chrome(options=opts, executable_path=exec_path)
+        # _browser = webdriver.Chrome(options=opts, executable_path=exec_path)
+        _browser = webdriver.Chrome(ChromeDriverManager().install(), options=opts)
+
     # Return the WebDriver instance for the setup
     yield _browser
     # Quit the WebDriver instance for the cleanup
